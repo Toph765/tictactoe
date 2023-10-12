@@ -1,16 +1,25 @@
 const gameBoard = (() => {
-    const gameBoard = ["x","o","x","o"];
-    const renderGameboard = () => {console.log(gameBoard)}
-    return {renderGameboard}
+    const gameBoard = ["", "", "", "", "", "", "", "", ""];
+
+    const renderBoard = () => {
+        const board = document.querySelector(".board");
+
+        gameBoard.forEach(() => {
+            const cell = document.createElement("div");
+            cell.classList.add("square");
+            board.appendChild(cell);
+        })
+    }
+
+    return {
+        renderBoard
+    }
 })();
 
-const players = () => {
+gameBoard.renderBoard();
 
-};
+const startBtn = document.querySelector("#start");
 
-
-gameBoard.renderGameboard();
-
-const displayController = (() => {
-
-})();
+startBtn.addEventListener("click", () => {
+    // gamePlay.start();
+})
