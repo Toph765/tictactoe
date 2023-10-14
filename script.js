@@ -1,6 +1,8 @@
 const gameBoard = (() => {
     const gameBoard = ["", "", "", "", "", "", "", "", ""];
 
+    const getBoard = () => gameBoard;
+
     const renderBoard = () => {
         const board = document.querySelector(".board");
         let currentPlayer = gamePlay.getPlayer();
@@ -13,9 +15,10 @@ const gameBoard = (() => {
         board.innerHTML = boardHTML;
         const square = document.querySelectorAll(".square");
  
-        square.forEach((square) => square.addEventListener("click", () => {
+        square.forEach((square, index) => square.addEventListener("click", () => {
             if (square.textContent) return;
             square.textContent = currentPlayer.playerToken;
+            gameBoard[index] = currentPlayer.playerToken;
 
             if (currentPlayer === player[0]) {
                 currentPlayer = player[1]
@@ -26,7 +29,7 @@ const gameBoard = (() => {
     }
 
     return {
-        renderBoard
+        renderBoard, getBoard
     }
 })();
 
@@ -55,7 +58,7 @@ const gamePlay = (() => {
         gameBoard.renderBoard();
     }
 
-    const getPlayer = () => currentPlayer
+    const getPlayer = () => currentPlayer;
 
     return {
         start, player, getPlayer
@@ -68,3 +71,5 @@ startBtn.addEventListener("click", (e) => {
     e.preventDefault();
     gamePlay.start();
 })
+
+
