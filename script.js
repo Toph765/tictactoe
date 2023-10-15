@@ -10,14 +10,15 @@ const gameBoard = (() => {
         let boardHTML = '';
         
         gameBoard.forEach((square, index) => {
-            boardHTML += `<div class="square" id="square-${index}">${square}</div>`;
+            boardHTML += `<button class="square style" id="square-${index}">${square}</button>`;
         })
         board.innerHTML = boardHTML;
         const square = document.querySelectorAll(".square");
  
-        square.forEach((square, index) => square.addEventListener("click", () => {
-            if (square.textContent) return;
-            square.textContent = currentPlayer.playerToken;
+        square.forEach((cell, index) => cell.addEventListener("click", () => {
+
+            if (cell.textContent) return;
+            cell.textContent = currentPlayer.playerToken;
             gameBoard[index] = currentPlayer.playerToken;
             console.log(gameBoard)
 
@@ -28,6 +29,10 @@ const gameBoard = (() => {
             }
 
             gamePlay.winCondition();
+
+            if (gamePlay.getGameOver()) {
+                square.forEach((square) => square.setAttribute("disabled", ""));
+            }
         }))
     }
 
@@ -52,6 +57,7 @@ const gamePlay = (() => {
     let gameOver;
 
     const getPlayer = () => currentPlayer;
+    const getGameOver = () => gameOver;
 
     let player = [
         addPlayer(playerOne, "X"),
@@ -74,11 +80,12 @@ const gamePlay = (() => {
             (board[1] === board[4] && board[4] === board[7] && board[1] === board[7] && (board[1] === "X" || board[1] === "O")) ||
             (board[2] === board[5] && board[5] === board[8] && board[2] === board[8] && (board[2] === "X" || board[2] === "O"))) {
                 alert("Game Over!");
+                gameOver = true;
             } else return;
     }
 
     return {
-        start, player, getPlayer, winCondition
+        start, player, getPlayer,getGameOver, winCondition
     }
 })();
 
