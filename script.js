@@ -80,6 +80,10 @@ const gamePlay = (() => {
                 alert("Game Over!");
                 gameOver = true;
                 board = board;
+            } else if (board.every((cell) => cell !== "")) {
+            alert("draw");
+            gameOver = true;
+            board = board;
             } else return;
     }
 
