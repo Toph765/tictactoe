@@ -81,7 +81,7 @@ const gamePlay = (() => {
                 gameOver = true;
                 board = board;
             } else if (board.every((cell) => cell !== "")) {
-            alert("draw");
+            alert("Draw!");
             gameOver = true;
             board = board;
             } else return;
