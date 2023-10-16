@@ -34,9 +34,13 @@ const gameBoard = (() => {
             }
         }))
     }
+
+    const boardReset = () => {
+        gameBoard = ["", "", "", "", "", "", "", "", ""];
+    }
     
     return {
-        renderBoard, getBoard
+        renderBoard, getBoard, boardReset
     }
 })();
 
@@ -64,7 +68,7 @@ const gamePlay = (() => {
 
     const winCondition = () => {
         let board = gameBoard.getBoard();
-        
+
         if ((board[0] === board[1] && board[0] === board[2] && (board[0] === "X" || board[0] === "O")) ||
             (board[3] === board[4] && board[3] === board[5] && (board[3] === "X" || board[3] === "O")) ||
             (board[6] === board[7] && board[6] === board[8] && (board[6] === "X" || board[6] === "O")) ||
@@ -99,5 +103,6 @@ startBtn.addEventListener("click", (e) => {
 });
 
 resetBtn.addEventListener("click", (e) => {
+    gameBoard.boardReset();
     gamePlay.start();
 });
