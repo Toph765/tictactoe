@@ -20,17 +20,22 @@ const gameBoard = (() => {
             gameBoard[index] = currentPlayer.playerToken;
             cell.textContent = gameBoard[index];
 
+            gamePlay.winCondition();
+
+            if (gamePlay.getGameOver()) {
+                if (!gamePlay.getDraw()) {
+                    alert(`Game over! ${currentPlayer.playerName} won!`);
+                } else {
+                    alert(`Game over! It's a draw!`)};
+                square.forEach((square) => square.setAttribute("disabled", ""));
+                gameBoard = ["", "", "", "", "", "", "", "", ""];
+            }
+
+
             if (currentPlayer === player[0]) {
                 currentPlayer = player[1]
             } else {
                 currentPlayer = player[0]
-            }
-
-            gamePlay.winCondition();
-
-            if (gamePlay.getGameOver()) {
-                square.forEach((square) => square.setAttribute("disabled", ""));
-                gameBoard = ["", "", "", "", "", "", "", "", ""];
             }
         }))
     }
@@ -53,21 +58,22 @@ const addPlayer = (name, token) => {
 };
 
 const gamePlay = (() => {
-    let playerOne;
-    let playerTwo;
+    let playerOne = '';
+    let playerTwo = '';
     let currentPlayer;
     let gameOver;
+    let isDraw;
 
-    document.querySelector("#playerOne").addEventListener("change", () => {
-        playerOne = document.querySelector("#playerOne").value;
-    }) 
+    let input = document.querySelectorAll("input");
 
-    document.querySelector("#playerTwo").addEventListener("change", () => {
-        playerTwo = document.querySelector("#playerTwo").value;
-    })
+    input.forEach((input) => input.addEventListener("change", () => {
+        if (input.getAttribute("id") === "playerOne") {playerOne = input.value};
+        if (input.getAttribute("id") === "playerTwo") {playerTwo = input.value};
+    }))
 
     const getPlayer = () => currentPlayer;
     const getGameOver = () => gameOver;
+    const getDraw = () => isDraw;
 
     let player = [
         addPlayer(playerOne, "X"),
@@ -85,18 +91,20 @@ const gamePlay = (() => {
             (board[0] === board[3] && board[0] === board[6] && (board[0] === "X" || board[0] === "O")) ||
             (board[1] === board[4] && board[1] === board[7] && (board[1] === "X" || board[1] === "O")) ||
             (board[2] === board[5] && board[2] === board[8] && (board[2] === "X" || board[2] === "O"))) {
-                alert("Game Over!");
                 gameOver = true;
+                isDraw = false;
                 board = board;
             } else if (board.every((cell) => cell !== "")) {
-            alert("Draw!");
-            gameOver = true;
-            board = board;
+                isDraw = true;
+                gameOver = true;
+                board = board;
             } else return;
     }
 
     const start = () => {
         if (playerOne && playerTwo) {
+            player[0].playerName = playerOne;
+            player[1].playerName = playerTwo;
             currentPlayer = player[0];
             gameOver = false;
             gameBoard.renderBoard();
@@ -106,7 +114,7 @@ const gamePlay = (() => {
     }
 
     return {
-        start, reset, player, getPlayer,getGameOver, winCondition,
+        start, reset, player, getPlayer,getGameOver, winCondition, getDraw
     }
 })();
 
