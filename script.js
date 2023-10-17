@@ -53,10 +53,18 @@ const addPlayer = (name, token) => {
 };
 
 const gamePlay = (() => {
-    const playerOne = document.querySelector("#playerOne").value;
-    const playerTwo = document.querySelector("#playerTwo").value;
+    let playerOne;
+    let playerTwo;
     let currentPlayer;
     let gameOver;
+
+    document.querySelector("#playerOne").addEventListener("change", () => {
+        playerOne = document.querySelector("#playerOne").value;
+    }) 
+
+    document.querySelector("#playerTwo").addEventListener("change", () => {
+        playerTwo = document.querySelector("#playerTwo").value;
+    })
 
     const getPlayer = () => currentPlayer;
     const getGameOver = () => gameOver;
@@ -88,9 +96,13 @@ const gamePlay = (() => {
     }
 
     const start = () => {
-        currentPlayer = player[0];
-        gameOver = false;
-        gameBoard.renderBoard();
+        if (playerOne && playerTwo) {
+            currentPlayer = player[0];
+            gameOver = false;
+            gameBoard.renderBoard();
+            document.querySelector("#playerOne").setAttribute("disabled", "");
+            document.querySelector("#playerTwo").setAttribute("disabled", "");
+        }
     }
 
     return {
@@ -107,6 +119,7 @@ startBtn.addEventListener("click", (e) => {
 });
 
 resetBtn.addEventListener("click", (e) => {
+    e.preventDefault();
     gameBoard.boardReset();
     gamePlay.start();
 });
